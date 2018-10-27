@@ -1,5 +1,6 @@
 package com.example.juanc.conversor_dam.feature;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
     private Spinner sptumoneda, otramoneda;
     private EditText etcantidad;
     private TextView tvresultado;
+
+    //creamos dos arrays con las monedas y los valores que vamos a necesitar
+    double [] valor_mon ={1.0,0.86440,1.14247,0.04533,0.01166,0.00770,0.09103,0.87425,5402.69,0.01299,0.02632};
+    String [] op_tumoneda = {"Euro", "Dollar", "Libra", "Peso", "Rupia", "Yen", "Dirham", "Franco", "Bitcoin", "Rublo", "Baht"};
 
 
     @Override
@@ -30,15 +34,13 @@ public class MainActivity extends AppCompatActivity {
         etcantidad = (EditText) findViewById(R.id.insertar_cantidad);
         tvresultado = (TextView) findViewById(R.id.resultado);
 
-        //creamos dos arrays con las monedas que vamos a necesitar
-        String[] op_tumoneda = {"Euro", "Dollar", "Libra", "Peso", "Rupia", "Yen", "Dirham", "Franco", "Bitcoin", "Rublo", "Baht"};
-        String[] op_otramoneda = {"Euro", "Dollar", "Libra", "Peso", "Rupia", "Yen", "Dirham", "Franco", "Bitcoin", "Rublo", "Baht"};
+
 
         //con el arrayadapter insertamos los arrays en las variables de tipo spiner que hemos creado
         ArrayAdapter<String> adapter_tumoneda = new ArrayAdapter<String>(this, R.layout.spiner_moneda, op_tumoneda);
         sptumoneda.setAdapter(adapter_tumoneda);
 
-        ArrayAdapter<String> adapter_otramoneda = new ArrayAdapter<String>(this, R.layout.spiner_moneda, op_otramoneda);
+        ArrayAdapter<String> adapter_otramoneda = new ArrayAdapter<String>(this, R.layout.spiner_moneda, op_tumoneda);
         otramoneda.setAdapter(adapter_otramoneda);
     }
 
@@ -70,37 +72,37 @@ public class MainActivity extends AppCompatActivity {
             switch (selec_tumon) {
 
                 case "Euro":
-                    tumoned = 1;
+                    tumoned = valor_mon[0];
                     break;
                 case "Dollar":
-                    tumoned = 0.86440;
+                    tumoned = valor_mon[1];
                     break;
                 case "Libra":
-                    tumoned = 1.14247;
+                    tumoned = valor_mon[2];
                     break;
                 case "Peso":
-                    tumoned = 0.04533;
+                    tumoned = valor_mon[3];
                     break;
                 case "Rupia":
-                    tumoned = 0.01166;
+                    tumoned = valor_mon[4];
                     break;
                 case "Yen":
-                    tumoned = 0.00770;
+                    tumoned = valor_mon[5];
                     break;
                 case "Dirham":
-                    tumoned = 0.09103;
+                    tumoned = valor_mon[6];
                     break;
                 case "Franco":
-                    tumoned = 0.87425;
+                    tumoned = valor_mon[7];
                     break;
                 case "Bitcoin":
-                    tumoned = 5402.69;
+                    tumoned = valor_mon[8];
                     break;
                 case "Rublo":
-                    tumoned = 0.01299;
+                    tumoned = valor_mon[9];
                     break;
                 case "Baht":
-                    tumoned = 0.02632;
+                    tumoned = valor_mon[10];
                     break;
 
             }
@@ -115,40 +117,40 @@ public class MainActivity extends AppCompatActivity {
             switch (selec_otramon) {
 
                 case "Euro":
-                    otramoned = 1;
+                    otramoned = valor_mon[0];
                     break;
                 case "Dollar":
-                    otramoned = 0.86440;
+                    otramoned = valor_mon[1];
                     break;
                 case "Libra":
-                    otramoned = 1.14247;
+                    otramoned = valor_mon[2];
                     break;
                 case "Peso":
-                    otramoned = 0.04533;
+                    otramoned = valor_mon[3];
                     break;
                 case "Rupia":
-                    otramoned = 0.01166;
+                    otramoned = valor_mon[4];
                     break;
                 case "Yen":
-                    otramoned = 0.00770;
+                    otramoned = valor_mon[5];
                     break;
                 case "Dirham":
-                    otramoned = 0.09103;
+                    otramoned = valor_mon[6];
                     break;
                 case "Franco":
-                    otramoned = 0.87425;
+                    otramoned = valor_mon[7];
                     break;
                 case "Bitcoin":
-                    otramoned = 5402.69;
+                    otramoned = valor_mon[8];
                     break;
                 case "Rublo":
-                    otramoned = 0.01299;
+                    otramoned = valor_mon[9];
                     break;
                 case "Baht":
-                    otramoned = 0.02632;
+                    otramoned = valor_mon[10];
                     break;
-
             }
+
             /* creamos la variable double resultado que calcula el valor de la moneda
             * primero lo convertimos en euros y con la division ya lo pasamos a la otra moneda*/
             double result = (cantidad_double * tumoned) / otramoned;
@@ -161,5 +163,14 @@ public class MainActivity extends AppCompatActivity {
             tvresultado.setText(resultado);
         }
 
+    }
+
+    //hacemos el metodo para el boton siguiente donde pasamos a otra activity y mandamos los datos
+    public void Siguiente(View view){
+        Intent Siguiente =new Intent(this,Main2Activity.class);
+        Siguiente.putExtra("paismoneda",op_tumoneda);
+        Siguiente.putExtra("valormoneda",valor_mon);
+
+        startActivity(Siguiente);
     }
 }
